@@ -1,0 +1,66 @@
+// nested routes
+in the pages folder, make a folder called "blogs" for example. In the "blogs" folder, index.js is the main route, other js files are considered routes of their own 
+for example "first.js" and "second.js"
+this way we create a nested route, on the browser we can test it by accessing the routes:
+/blogs/
+/blogs/first
+/blogs/second
+
+
+//dynamic routes
+a file name withing square brackets , ex:[productID].js is considered a dynamic segment for a dynamic route
+we're going to use the useRouter hook to extract the id from the route parameter 
+for example: consider this route: /product/1
+we want to display : "details about product 1" in the browser 
+importing useRouter from next/router
+assigning it to a variable : const router = useRouter()
+assigning the parameter (1 in this case) to a variable : const productID = router.query.productID
+where productID is the name of the file from earlier ([productID]) 
+and now using jsx we can just display the desired message : details about product {productID}
+note : since paths could also be strings and not just numbers, next.js will always try to find a page with the name of that string first, ex: /product/sweater , if we have a page named sweater.js, the content of that component is what's going to be displayed on the browser 
+
+
+//nested dynamic routes 
+this is possible doing the following:
+ex: within  the product folder, create a folder named [productID] alongside our default index.js file
+within [productID] create a folder named "review" for example 
+and within the folder review, create a file called [review].js 
+in this file we can use the useRouter hook again , extract reviewID and productID 
+const {reviewID,productID} = router.query
+and then dispay them : review {reviewID} for product {productID}
+
+
+//catch all routes
+in the code example, we are creating a "docs" folder within the "pages" folder
+the name of the file created within "docs" is special: example: [...params]
+//// take a look at the code and see how we render content depending the params array length///
+the problem here is if we navigate to a simple "/docs" route, we get a "404 page not found" page
+to fix this we can wrap the name of file with another pair of square brackets : [[...params]]
+
+
+// routing with a Link component
+this is pretty straight forward: you import a Link component from 'next/link' and you use the tag
+<Link href="/path">
+<a>example text</a>
+</Link>
+the Link component is used for client side navigation, if we want to navigate to an external link we simply pass the "href" property to the plain old html anchor tag <a>
+It is also noteworthy that the Link component accepts a "replace" property which replaces the current hisotry state instead of adding a new url to the stack
+
+
+//routing programatically
+we can create a function that uses the useRouter hook. This would be, for example, a click handler, and on that click event we execute the function : router.push('/path')
+/// take a look at the code for the example ///
+
+
+// custom 404 page
+any route in next.js is defined within the pages folder. With that being said, attempting to navigate to non-existant route will render the next.js default 404 page
+if we want to make our own page for that puropose,wihting the pages folder of course, we simply need to create a file with a very specific name: 404.js
+any content we wish to be displayed when the user looks for a non-existant route will be indicated in this 404.js file
+
+
+
+
+
+
+
+
